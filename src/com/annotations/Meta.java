@@ -3,13 +3,16 @@ package com.annotations;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
 
-@What(Description = "Аннотация тестового класса")
-@MyAnno( str="Meta", val = 0)
+@What()
+@MyAnno( str="Meta")
+@MyMarker
 public class Meta {
 
     @What(Description = "Аннотация метода тестового класса")
     @MyAnno( str="Testing", val = 1)
-    public static void myMeth(){
+    @MyAnnotationSingleValue("Одночленная аннотация")
+    @MyMarker
+    public void myMeth(){
 
     }
 }
