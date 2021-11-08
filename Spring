@@ -1,0 +1,10 @@
+Состовляющие:
+
+- Listener
+- ClassPathBeanDefitionScaner
+- BeanDefinitionReader - сканирует файлы (xml)/пакеты и ищет описание бинов
+- Context
+- BPP
+- Bean
+- BeanFactory
+- BFPP
