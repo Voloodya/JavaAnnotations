@@ -6,5 +6,5 @@
 - Context
 - BPP
 - Bean
-- BeanFactory
+- BeanFactory - хранит бины
 - BFPP

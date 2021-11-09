@@ -1,5 +1,8 @@
 package com.annotations;
 
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import java.lang.annotation.Annotation;
 // Рефлексия - языковое средство для получения сведений о классе во время тсполнения программы
 import java.lang.reflect.*;
@@ -90,14 +93,17 @@ public class AnnnotationRun {
 
     public  static  void main(String[] args){
 
-        Meta meta = new Meta();
-        getAnnotationsClass(meta);
-        getAnnotationsMethodClass(meta);
-        getMarkerAnnotationsObject(meta);
-        getMarkerAnnotationsMethod(meta);
+        // Чтение аннотаций в объектах классов
+//        Meta meta = new Meta();
+//        getAnnotationsClass(meta);
+//        getAnnotationsMethodClass(meta);
+//        getMarkerAnnotationsObject(meta);
+//        getMarkerAnnotationsMethod(meta);
+//
+//        getAnnotationsSingleValueObject(meta);
+//        getAnnotationsSingleValueMethod(meta);
 
-        getAnnotationsSingleValueObject(meta);
-        getAnnotationsSingleValueMethod(meta);
+        BeanFactory beanfactory=new ClassPathXmlApplicationContext("spring-context.xml");
     }
 
 }
