@@ -2,11 +2,10 @@ package com.annotations.quoters;
 
 public class TerminatorQuoter implements Quoter{
 
-    private String Message;
+    @InjectRandomInt(min = 1, max = 10)
+    private int repeat;
 
-    public TerminatorQuoter(String message) {
-        this.Message = message;
-    }
+    private String Message;
 
     public String getMessage() {
         return this.Message;
@@ -16,8 +15,18 @@ public class TerminatorQuoter implements Quoter{
         this.Message = message;
     }
 
+    public int getRepeat() {
+        return repeat;
+    }
+
+    public void setRepeat(int repeat) {
+        this.repeat = repeat;
+    }
+
     @Override
     public void sayQuote() {
-        System.out.println("Message: "+this.Message);
+        for (int i = 0; i < this.repeat; i++) {
+            System.out.println("Message: " + this.Message);
+        }
     }
 }

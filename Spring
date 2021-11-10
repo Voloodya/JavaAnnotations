@@ -1,10 +1,18 @@
 Состовляющие:
-
+- BeanDefinitionReader - сканирует контекст (файлы (xml (ClassPathXmlApplicationContext)))/пакеты и ищет описание бинов
+- BPP (Bean Post Processor) - позволяет настраивать бины (в т.ч. с помощью аннотаций) до того как они попадут в контейнер бинов
+- BeanFactory - отвечет за создание и хранение всех объектов (Singleton - создаются сразу в момент поднятия, Prototype - создаются при запросе). Все бины складывает в контейнер -> Полностью настроенные объекты
 - Listener
 - ClassPathBeanDefitionScaner
-- BeanDefinitionReader - сканирует файлы (xml)/пакеты и ищет описание бинов
 - Context
-- BPP
 - Bean
-- BeanFactory - хранит бины
+
 - BFPP
+
+RetentionPolicy annotations	Description
+CLASS
+Annotations are to be recorded in the class file by the compiler but need not be retained by the VM at run time.
+RUNTIME
+Annotations are to be recorded in the class file by the compiler and retained by the VM at run time, so they may be read reflectively.
+SOURCE
+Annotations are to be discarded by the compiler.

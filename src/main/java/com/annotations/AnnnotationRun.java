@@ -1,5 +1,6 @@
 package com.annotations;
 
+import com.annotations.quoters.Quoter;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -103,7 +104,9 @@ public class AnnnotationRun {
 //        getAnnotationsSingleValueObject(meta);
 //        getAnnotationsSingleValueMethod(meta);
 
-        BeanFactory beanfactory=new ClassPathXmlApplicationContext("spring-context.xml");
+        ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("spring-context.xml");
+        context.getBean(Quoter.class).sayQuote();
+
     }
 
 }
