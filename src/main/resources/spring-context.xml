@@ -4,9 +4,10 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean class="com.annotations.quoters.InjectRandomIntAnnotationBeanPostProcessor"/>
+
     <bean class="com.annotations.quoters.TerminatorQuoter" id="terminatorQuoter">
         <property name="message" value="I'll be back"/>
     </bean>
+    <bean class="com.annotations.quoters.InjectRandomIntAnnotationBeanPostProcessor"/>
 
 </beans>
