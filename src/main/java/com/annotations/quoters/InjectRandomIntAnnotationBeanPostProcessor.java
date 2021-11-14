@@ -10,7 +10,7 @@ import java.util.Random;
 //Класс имплиментирующий интерфейс. Отвечает за обработку всех бинов имеющих данную анноацию в какм-то поле
 public class InjectRandomIntAnnotationBeanPostProcessor implements BeanPostProcessor {
 
-    // Вызывается до init-метода
+    // Вызывается до init-метода, сразу после создания bean-а
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         Field [] fields = bean.getClass().getDeclaredFields();

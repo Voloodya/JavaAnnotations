@@ -92,7 +92,7 @@ public class AnnnotationRun {
         }
     }
 
-    public  static  void main(String[] args){
+    public  static  void main(String[] args) throws Exception{
 
         // Чтение аннотаций в объектах классов
 //        Meta meta = new Meta();
@@ -105,7 +105,10 @@ public class AnnnotationRun {
 //        getAnnotationsSingleValueMethod(meta);
 
         ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("spring-context.xml");
-        context.getBean(Quoter.class).sayQuote();
+        while (true) {
+            Thread.sleep(1000);
+            context.getBean(Quoter.class).sayQuote();
+        }
 
     }
 
