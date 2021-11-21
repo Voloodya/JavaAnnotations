@@ -1,15 +1,17 @@
 Состовляющие:
-1) BeanDefinitionReader - сканирует и парсит контекст (файлы (xml (ClassPathXmlApplicationContext)))/пакеты и ищет описание бинов, создает BeanDefinition
-2) BeanFactory - вытаскивает из BeanDefinition определения BeanPostProcessor-ов, и 1-ю очередь создает бины, которые имплементируют интерфейс BeanPostProcessor,
-   чтобы затем с помощью этих бинов BPP настроивал остальные бины, кторрые не BPP. Овечет за создание и хранение всех объектов (Singleton - создаются сразу в момент поднятия,
-    Prototype - создаются при запросе). Все бины складывает в контейнер -> Полностью настроенные объекты
-2.1) BPP (Bean Post Processor) - настраивает бины (в т.ч. с помощью аннотаций) до того как они попадут в контейнер бинов
-- Listener
-- ClassPathBeanDefitionScaner
-- Context - представлены файлами/аннотациями описывающими бины, из которых затем формируется контекст программы
 - Bean
+- Context - представлены файлами/аннотациями описывающими бины, из которых затем формируется контекст программы - контейнер бинов
+1) BeanDefinitionReader - сканирует и парсит контекст (файлы (xml (ClassPathXmlApplicationContext)))/пакеты и ищет описание бинов, создает BeanDefinition
+2) BeanFactory - вытаскивает из BeanDefinition определения BeanPostProcessor-ов, и в 1-ю очередь создает системные бины, которые имплементируют интерфейс BeanPostProcessor,
+   чтобы затем с помощью этих бинов BPP настроивал остальные (пользовательские) бины, кторрые не BPP. Овечет за создание и хранение всех объектов (Singleton - создаются сразу в момент поднятия,
+    Prototype - создаются при запросе). Все бины складывает в контейнер -> Полностью настроенные объекты
+2.1) BFPP (Bean Factory Post Processor) - раюотают до создания бинов и позволяет настраивать bean definitions, до того, как создаются бины.
+    Это интерфейс с единственным методом - postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory)
+2.2) BPP (Bean Post Processor) - это интерфейс  BeanPostProcessor. Настраивает бины (в т.ч. с помощью аннотаций) до того как они попадут в контейнер бинов (@PostConstruct)
+- ApplicationListener - слушает Context Spring-а (ContextStartedEvent (начало построения), ContextStoppedEvent, ContextRefreshedEvent (завершение построения,обновление), ContextClosedEvent).
+    из любого Event-а можно вытащить контекст
+- ClassPathBeanDefitionScaner
 
-- BFPP
 
 RetentionPolicy annotations	Description
 CLASS
@@ -18,3 +20,52 @@ RUNTIME
 Annotations are to be recorded in the class file by the compiler and retained by the VM at run time, so they may be read reflectively.
 SOURCE
 Annotations are to be discarded by the compiler.
+
+JPA. HIBERNATE
+Объект-сущность может находиться в одном из 3-х состояний (статусов):
+• transient object. Объекты в данном статусе — это заполненные экземпляры
+классов-сущностей. Могут быть сохранены в БД. Не присоединены к сессии.
+Поле Id не должно быть заполнено, иначе объект имеет статус detached ;
+transient — объект-сущность была только инициализирована, но пока ещё не
+добавлена под управление ORM, не имеет представления в базе данных, ключевые
+поля, как правило, ещё не заданы.
+• persistent object. Объект в данном статусе — так называемая хранимая сущность,
+которая присоединена к конкретной сессии. Только в этом статусе объект
+взаимодействует с базой данных. При работе с объектом данного типа в рамках
+транзакции все изменения объекта записываются в базу;
+• detached object. Объект в данном статусе — это объект, отсоединённый от
+сессии, может существовать или не существовать в БД.
+• removed, в сессиях Hibernate removed — частный случай persistent, по идее.
+Любой объект-сущность можно переводить из одного статуса в другой. Для этого в
+интерфейсе Session существуют следующие методы:
+• persist(Object) — преобразует объект из transient в persistent, то есть
+присоединяет к сессии и сохраняет в БД. Однако, если мы присвоим значение
+полю Id объекта, то получим PersistentObjectException — Hibernate посчитает, что
+объект detached, т. е. существует в БД. При сохранении метод persist() сразу
+выполняет insert, не делая select.
+• merge(Object) — преобразует объект из transient или detached в persistent. Если
+из transient, то работает аналогично persist() (генерирует для объекта новый Id,
+даже если он задан), если из detached — загружает объект из БД, присоединяет
+к сессии, а при сохранении выполняет запрос update
+• replicate(Object, ReplicationMode) — преобразует объект из detached в persistent,
+при этом у объекта обязательно должен быть заранее установлен Id. Данный
+метод предназначен для сохранения в БД объекта с заданным Id, чего не
+позволяют сделать persist() и merge(). Если объект с данным Id уже существует в
+БД, то поведение определяется согласно правилу из перечисления
+org.hibernate.ReplicationMode:
+ReplicationMode.IGNORE — ничего не меняется в базе.
+ReplicationMode.OVERWRITE — объект сохраняется в базу вместо
+существующего.
+ReplicationMode.LATEST_VERSION — в базе сохраняется объект с последней
+версией.
+ReplicationMode.EXCEPTION — генерирует исключение.• delete(Object) — удаляет объект из БД, иными словами, преобразует persistent в
+transient. Object может быть в любом статусе, главное, чтобы был установлен Id.
+• save(Object) — сохраняет объект в БД, генерируя новый Id, даже если он
+установлен. Object может быть в статусе transient или detached
+• update(Object) — обновляет объект в БД, преобразуя его в persistent (Object в
+статусе detached)
+• saveOrUpdate(Object) — вызывает save() или update()
+• refresh(Object) — обновляет detached-объект, выполнив select к БД, и
+преобразует его в persistent
+• get(Object.class, id) — получает из БД объект класса-сущности с определённым Id
+в статусе persistent

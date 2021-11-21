@@ -11,12 +11,12 @@ public class TerminatorQuoter implements Quoter{
     private String Message;
 
     public TerminatorQuoter(){
-        System.out.println("Phase 1 - Constructor: this.repeat =  " + this.repeat);
+        System.out.println("Phase 1 - Constructor. Before annotation: this.repeat =  " + this.repeat);
     }
 
     @PostConstruct //Сработает только после добвления бина CommonAnnotationBeanPostProcessor в контекст
     public void init(){
-        System.out.println("Phase 2 - init-method: this.repeat =  " + this.repeat);
+        System.out.println("Phase 2 - init-method. After annotation: this.repeat =  " + this.repeat);
     }
 
     public String getMessage() {
@@ -36,7 +36,9 @@ public class TerminatorQuoter implements Quoter{
     }
 
     @Override
+    @PostProxyActionThirdPhase
     public void sayQuote() {
+        System.out.println("Phase 3. After PostConstruct: ");
         for (int i = 0; i < this.repeat; i++) {
             System.out.println("Message: " + this.Message);
         }

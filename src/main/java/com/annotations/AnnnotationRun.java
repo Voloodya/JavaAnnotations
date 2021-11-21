@@ -105,10 +105,15 @@ public class AnnnotationRun {
 //        getAnnotationsSingleValueMethod(meta);
 
         ClassPathXmlApplicationContext context=new ClassPathXmlApplicationContext("spring-context.xml");
-        while (true) {
-            Thread.sleep(1000);
-            context.getBean(Quoter.class).sayQuote();
-        }
+        // Аннотации конструкторов 1-ой и 2-ой фазы
+//        while (true) {
+//            Thread.sleep(1000);
+//            context.getBean(Quoter.class).sayQuote();
+//        }
+       // context.getBean(Quoter.class).sayQuote();
+
+        // Аннотация конструктура 3-ей фазы. Создается после Proxy
+
 
     }
 

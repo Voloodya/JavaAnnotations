@@ -2,14 +2,17 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:util="http://www.springframework.org/schema/util"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
+<!--    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>-->
+    <context:annotation-config/>
 
     <bean class="com.annotations.quoters.TerminatorQuoter" id="terminatorQuoter">
         <property name="message" value="I'll be back"/>
     </bean>
     <bean class="com.annotations.quoters.InjectRandomIntAnnotationBeanPostProcessor"/>
-    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor"/>
     <bean class="com.annotations.quoters.ProfilingHandlerBeanPostProcessor"/>
+    <bean class="com.annotations.quoters.PosProxyInvokerContextListener"/>
 
 </beans>

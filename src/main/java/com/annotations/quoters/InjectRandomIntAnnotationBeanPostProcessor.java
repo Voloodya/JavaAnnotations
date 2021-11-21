@@ -7,7 +7,8 @@ import org.springframework.util.ReflectionUtils;
 import java.lang.reflect.Field;
 import java.util.Random;
 
-//Класс имплиментирующий интерфейс. Отвечает за обработку всех бинов имеющих данную анноацию в какм-то поле
+// Конструктор (construct) 1-ой фазы
+//Класс имплиментирующий интерфейс сразу после отработки конструктора. Отвечает за обработку всех бинов имеющих данную анноацию (@InjectRandomInt) в каком-то поле
 public class InjectRandomIntAnnotationBeanPostProcessor implements BeanPostProcessor {
 
     // Вызывается до init-метода, сразу после создания bean-а
